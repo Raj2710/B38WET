@@ -2,10 +2,9 @@ import React from 'react'
 import {useParams} from 'react-router-dom'
 
 function EditUser() {
-  let params = useParams()
-  console.log(params)
+  let {id} = useParams()
   return<>
-    <h1>Edit User {params.id}</h1>
+    <h1>Edit User {id}</h1>
   </>
 }
 

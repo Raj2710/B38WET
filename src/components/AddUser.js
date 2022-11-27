@@ -1,9 +1,11 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useNavigate} from 'react-router-dom'
+import {UserContext} from './ContextComponent/UserContextComponent'
 
-function AddUser({users,setUsers}) {
+function AddUser() {
+  let context = useContext(UserContext)
   let [name,setName] = useState("")
   let [email,setEmail] = useState("")
   let [mobile,setMobile] = useState("")
@@ -14,9 +16,9 @@ function AddUser({users,setUsers}) {
 
   let handleSubmit = ()=>{
     let newData = {name,email,mobile,batch,timings}
-    let newArray = [...users]
+    let newArray = [...context.users]
     newArray.push(newData)
-    setUsers(newArray)
+    context.setUsers(newArray)
     navigate('/dashboard')
   }
   return <>

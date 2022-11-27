@@ -1,16 +1,19 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import BasicCard from './CardComponents/BasicCard'
 import ProgressCard from './CardComponents/ProgressCard'
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import {useNavigate} from 'react-router-dom'
-
-function Dashboard({data,users,setUsers}) {
+import {UserContext} from './ContextComponent/UserContextComponent'
+import {DashboardContext} from './ContextComponent/DashboardContextComponent'
+function Dashboard() {
+  let context = useContext(UserContext)
+  let dash = useContext(DashboardContext)
   let navigate = useNavigate()
   let handleDelete = (i)=>{
-    let newArray = [...users]//deep copy the main array
+    let newArray = [...context.users]//deep copy the main array
     newArray.splice(i,1)//delete the element in the new array
-    setUsers(newArray)//update the new array to the state function
+    context.setUsers(newArray)//update the new array to the state function
   }
   return <div id="content-wrapper" className="d-flex flex-column">
   <div id="content">
@@ -21,10 +24,10 @@ function Dashboard({data,users,setUsers}) {
                       className="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
           <div className="row">
-            <BasicCard lable='Earnings (Monthly)' value={data.earningsMonthly} icon='fa-calendar' border='primary'/>
-            <BasicCard lable='Earnings (Annual)' value={data.earningsYearly} icon='fa-dollar-sign' border='success'/>
-            <ProgressCard lable='Tasks' value={data.task} icon='fa-clipboard-list' border='info'/>
-            <BasicCard lable='Pending Requests' value={data.pendingRequest} icon='fa-comments' border='warning'/>
+            <BasicCard lable='Earnings (Monthly)' value={dash.earningsMonthly} icon='fa-calendar' border='primary'/>
+            <BasicCard lable='Earnings (Annual)' value={dash.earningsYearly} icon='fa-dollar-sign' border='success'/>
+            <ProgressCard lable='Tasks' value={dash.task} icon='fa-clipboard-list' border='info'/>
+            <BasicCard lable='Pending Requests' value={dash.pendingRequest} icon='fa-comments' border='warning'/>
           </div>
     <Table striped bordered hover>
       <thead>
@@ -40,7 +43,7 @@ function Dashboard({data,users,setUsers}) {
       </thead>
       <tbody>
         {
-          users.map((e,i)=>{
+          context.users.map((e,i)=>{
             return <tr key={i}>
               <td>{i+1}</td>
               <td>{e.name}</td>

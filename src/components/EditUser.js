@@ -43,8 +43,9 @@ function EditUser() {
   let handleSubmit = ()=>{
     let newData = {name,email,mobile,batch,timings}
     let newArray = [...context.users]
-    newArray.splice(id,1,newData)
+    newArray.splice(id,1,{name,email,mobile,batch,timings})
     context.setUsers(newArray)
+    console.log(context.users)
     navigate('/dashboard')
   }
   return <>

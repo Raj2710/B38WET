@@ -10,6 +10,8 @@ import Account from './components/NestedComponents/Account'
 import Profile from './components/NestedComponents/Profile'
 import UserContextComponent from './components/ContextComponent/UserContextComponent';
 import DashboardContextComponent from './components/ContextComponent/DashboardContextComponent';
+import UseRef from './components/NestedComponents/UseRef';
+import UseReducer from './components/NestedComponents/UseReducer';
 
 export default function App() {
   return <div id="wrapper">
@@ -34,6 +36,8 @@ export default function App() {
         <Route path='/nested-example' element={<NestedExample/>}>
             <Route path='account' element={<Account/>}/>
             <Route path='profile' element={<Profile/>}/>
+            <Route path='use-ref' element={<UseRef/>}/>
+            <Route path='use-reducer' element={<UseReducer/>}/>
         </Route>
 
         <Route path='*' element={<Navigate to={'/dashboard'}/>}/>

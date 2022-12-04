@@ -62,6 +62,16 @@ function Sidebar() {
     </Link>
 </li>
 
+<li className="nav-item">
+    <Link to='/todo'>
+        <div className="nav-link collapsed" data-toggle="collapse" data-target="#collapseUtilities"
+            aria-expanded="true" aria-controls="collapseUtilities">
+            <i className="fas fa-fw fa-wrench"></i>
+            <span>Todo Task</span>
+        </div>
+    </Link>
+</li>
+
 <hr className="sidebar-divider"/>
 
 </ul>

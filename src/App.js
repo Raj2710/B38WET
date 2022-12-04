@@ -12,26 +12,22 @@ import UserContextComponent from './components/ContextComponent/UserContextCompo
 import DashboardContextComponent from './components/ContextComponent/DashboardContextComponent';
 import UseRef from './components/NestedComponents/UseRef';
 import UseReducer from './components/NestedComponents/UseReducer';
+import Todo from './components/Todo';
 
 export default function App() {
   return <div id="wrapper">
+    <UserContextComponent>
     <BrowserRouter>
       <Sidebar/>
       <Routes>
         <Route path='/dashboard' element={
           <DashboardContextComponent>
-            <UserContextComponent>
               <Dashboard/>
-            </UserContextComponent>
           </DashboardContextComponent>}/>
         <Route path='/add-user' element={
-          <UserContextComponent>
-            <AddUser />
-          </UserContextComponent>}/>
+            <AddUser />}/>
         <Route path='/edit-user/:id' element={
-          <UserContextComponent>
-            <EditUser/>
-          </UserContextComponent>}/>
+            <EditUser/>}/>
 
         <Route path='/nested-example' element={<NestedExample/>}>
             <Route path='account' element={<Account/>}/>
@@ -40,8 +36,10 @@ export default function App() {
             <Route path='use-reducer' element={<UseReducer/>}/>
         </Route>
 
+        <Route path='/todo' element={<Todo/>}/>
         <Route path='*' element={<Navigate to={'/dashboard'}/>}/>
       </Routes>
     </BrowserRouter>
+    </UserContextComponent>
   </div>
 }

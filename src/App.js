@@ -13,6 +13,8 @@ import DashboardContextComponent from './components/ContextComponent/DashboardCo
 import UseRef from './components/NestedComponents/UseRef';
 import UseReducer from './components/NestedComponents/UseReducer';
 import Todo from './components/Todo';
+import AddUsers from './components/CRUDComponents/AddUsers';
+import AllUsers from './components/CRUDComponents/AllUsers';
 
 export default function App() {
   return <div id="wrapper">
@@ -37,7 +39,11 @@ export default function App() {
         </Route>
 
         <Route path='/todo' element={<Todo/>}/>
+        <Route path='/add-users' element={<AddUsers />}/>
+        <Route path='/add-users/:id' element={<AddUsers/>}/>
+        <Route path='/all-users' element={<AllUsers />}/>
         <Route path='*' element={<Navigate to={'/dashboard'}/>}/>
+
       </Routes>
     </BrowserRouter>
     </UserContextComponent>

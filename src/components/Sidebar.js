@@ -74,6 +74,31 @@ function Sidebar() {
 
 <hr className="sidebar-divider"/>
 
+{/* <!-- Heading --> */}
+<div className="sidebar-heading">
+    API CRUD
+</div>
+
+<li className="nav-item">
+    <Link to='/all-users'>
+        <div className="nav-link collapsed" data-toggle="collapse" data-target="#collapseUtilities"
+            aria-expanded="true" aria-controls="collapseUtilities">
+            <i className="fas fa-fw fa-wrench"></i>
+            <span>All Users</span>
+        </div>
+    </Link>
+</li>
+
+<li className="nav-item">
+    <Link to='/add-users'>
+        <div className="nav-link collapsed" data-toggle="collapse" data-target="#collapseUtilities"
+            aria-expanded="true" aria-controls="collapseUtilities">
+            <i className="fas fa-fw fa-wrench"></i>
+            <span>Add Users</span>
+        </div>
+    </Link>
+</li>
+
 </ul>
   </>
 }

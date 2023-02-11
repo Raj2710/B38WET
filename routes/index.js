@@ -3,7 +3,7 @@ var router = express.Router();
 const {dbUrl} = require('../config/dbConfig')
 const mongoose = require('mongoose')
 const {UserModel} = require('../schema/usersschema')
-
+const {hashCompare,hashPassword} = require('../config/auth')
 mongoose.connect(dbUrl)
 
 router.get('/all',async(req,res)=>{
@@ -26,11 +26,32 @@ router.get('/user/:id',async(req,res)=>{
     res.status(500).send({message:"Internal Server Error",error})
   }
 })
+router.post('/login',async(req,res)=>{
+  try {
+    let user = await UserModel.findOne({email:req.body.email})
+   if(user)
+   {
+      console.log(await hashCompare(req.body.password,user.password))
+      if(await hashCompare(req.body.password,user.password))
+      {
+        res.status(200).send({message:"Login Successfull"})
+      }
+      else
+        res.status(400).send({message:"Invalid Credentials"})
+   }
+   else
+    res.status(400).send({message:"Email does not exists"})
+  } catch (error) {console.log(error)
+    res.status(500).send({message:"Internal Server Error",error})
+  }
+})
+
 router.post('/add-user',async(req,res)=>{
   try {
     let user = await UserModel.findOne({email:req.body.email})
     if(!user)
     {
+        req.body.password = await hashPassword(req.body.password)
         let doc = new UserModel(req.body)
       await doc.save()
       res.status(201).send({
@@ -55,7 +76,6 @@ router.put('/edit-user/:id',async(req,res)=>{
         user.email = req.body.email
         user.password = req.body.password
         await user.save()
-
         // let doc = await UserModel.updateOne({_id:req.params.id},{$set:req.body},{runValidators:true})
         res.status(200).send({
           message:"User Edited Successfully"

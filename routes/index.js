@@ -3,20 +3,20 @@ var router = express.Router();
 const {dbUrl} = require('../config/dbConfig')
 const mongoose = require('mongoose')
 const {UserModel} = require('../schema/usersschema')
-const {hashCompare,hashPassword} = require('../config/auth')
+const {hashCompare,hashPassword,createToken,decodeToken,validate,roleAdmin} = require('../config/auth')
 mongoose.connect(dbUrl)
 
-router.get('/all',async(req,res)=>{
+router.get('/all',validate,roleAdmin,async(req,res)=>{
   try {
-    let users = await UserModel.find()
-    res.status(200).send({
-      users
-    })
+      let users = await UserModel.find()
+      res.status(200).send({
+        users
+      })
   } catch (error) {console.log(error)
     res.status(500).send({message:"Internal Server Error",error})
   }
 })
-router.get('/user/:id',async(req,res)=>{
+router.get('/user/:id',validate,async(req,res)=>{
   try {
     let users = await UserModel.findOne({_id:req.params.id},{password:0})
     res.status(200).send({
@@ -34,7 +34,8 @@ router.post('/login',async(req,res)=>{
       console.log(await hashCompare(req.body.password,user.password))
       if(await hashCompare(req.body.password,user.password))
       {
-        res.status(200).send({message:"Login Successfull"})
+        let token = await createToken({email:user.email,firstName:user.firstName,lastName:user.lastName,role:user.role})
+        res.status(200).send({message:"Login Successfull",token})
       }
       else
         res.status(400).send({message:"Invalid Credentials"})
@@ -89,7 +90,7 @@ router.put('/edit-user/:id',async(req,res)=>{
     res.status(500).send({message:"Internal Server Error",error})
   }
 })
-router.delete('/delete-user/:id',async(req,res)=>{
+router.delete('/delete-user/:id',validate,roleAdmin,async(req,res)=>{
   try {
     let user = await UserModel.findOne({_id:req.params.id})
     if(user){
